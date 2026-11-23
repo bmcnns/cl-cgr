@@ -13,7 +13,7 @@
    the bundle can depart."
   (let ((departure-time (max time (contact-start contact))))
     (when (< departure-time (contact-end contact))
-	(+ departure-time *owlt*))))
+	(+ departure-time (contact-owlt contact)))))
 
 (defun cgr (plan source destination &key (t0 0d0))
   "Returns the path from SOURCE to DESTINATION with the earliest arrival
@@ -63,15 +63,3 @@
 			      (relax (contact-to (aref plan id)) (aref arrival-times id) id)))
 		   (return-from cgr nil))))))
 		   
-		   
-		   
-	      
-	       
-(defun route-demand (plan demand)
-  "Routes a DEMAND through contact-graph routing (CGR)."
-  (cgr plan (demand-source demand) (demand-destination demand) :t0 (demand-t0 demand))) 
-
-(defun route (plan demands)
-  "Route each demand in DEMANDS over a contact plan PLAN.
-   Returns a list of results, one per demand, in the same order."
-  (mapcar (lambda (demand) (route-demand plan demand)) demands))

@@ -6,7 +6,8 @@
   to
   start
   end
-  rate)
+  rate
+  (owlt 0.1d0))
 
 (defmacro defplan (name docstring &rest contacts)
   "Define a contact plan in ION format."
@@ -20,3 +21,14 @@
 					    :to ,(sixth contact)
 					    :rate (coerce ,(seventh contact) 'double-float))))
      ,docstring))
+
+(defun satellites (contact-plan)
+  "All satellite IDs in the contact plan."
+  (remove-duplicates
+   (loop for contact across contact-plan
+	 collect (contact-from contact)
+	 collect (contact-to contact))))
+
+(defun plan-end (contact-plan)
+  "The time when the last contact ends."
+  (reduce #'max contact-plan :key #'contact-end))

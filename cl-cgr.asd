@@ -3,7 +3,10 @@
   :author "Bryce MacInnis"
   :serial t
   :components ((:file "package")
-	       (:file "main")
+	       (:file "utils")
 	       (:file "contact")
 	       (:file "demand")
-	       (:file "cgr")))
+	       (:file "cgr")
+	       (:file "routing")
+	       (:file "file-system")
+	       (:file "main")))
