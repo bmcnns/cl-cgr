@@ -1,14 +1,14 @@
 (in-package :cl-cgr)
 
-(defun deliverable-p (demand plan &key (router #'cgr))
-  "Returns T if the DEMAND is deliverable under PLAN
-   with the ROUTER method."
+(defun deliverable-p (demand scenario &key (router #'cgr))
+  "Returns T if the DEMAND is deliverable under SCENARIO's contact plan with the ROUTER method."
   (let ((source (demand-source demand))
 	(destination (demand-destination demand))
-	(t0 (demand-t0 demand)))
+	(t0 (demand-t0 demand))
+	(plan (scenario-contact-plan scenario)))
     (multiple-value-bind (route arrival-time)
 	(funcall router plan source destination :t0 t0)
-      (and route (<= (- arrival-time t0) *time-window*)))))
+      (and route (<= (- arrival-time t0) (scenario-time-window scenario))))))
 
 					; The simple direct routing method is put here.
 

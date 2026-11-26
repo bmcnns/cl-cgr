@@ -14,7 +14,12 @@
 				       :destination ,(fifth demand))))
      ,docstring))
 
-(defun generate-demand (contact-plan &key (seed *random-state*))
-  (make-demand :source (random-elt (satellites contact-plan))
-	       :destination 1
-	       :t0  (random (- (floor ( plan-end contact-plan)) *time-window*) seed)))
+(defun generate-demand (scenario)
+  (let ((contact-plan (scenario-contact-plan scenario))
+	(sources (scenario-sources scenario))
+	(destinations (scenario-destinations scenario))
+	(time-window (scenario-time-window scenario)))
+    (make-demand :source (random-elt sources)
+		 :destination (random-elt destinations)
+		 :t0 (random (- (floor (plan-end contact-plan)) time-window)))))
+
